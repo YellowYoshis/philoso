@@ -3,47 +3,61 @@
 void *simulation(void *arg)
 {
     t_philo     *philo;
-    long    now;
 
     philo = (t_philo *)arg;
-    printf("data->philo_nbr %ld\n", philo->data->philo_nbr);
-    now = get_time_ms();
-    while (1)
-    {
-        if(now >= philo->data->start_time + 2000)
-            break ;
-        now = get_time_ms();
-    }
+    while (get_time_ms() < philo->data->start_time)
+    ;
     while(!simulation_stopped(philo->data))
     {
-        is_eating(philo);
-        is_sleeping(philo);
-        is_thinking(philo);
+        if(is_eating(philo))
+            return (NULL);
+        if (philo->meal_counter > 0)
+            philo->meal_counter--;
+        if (philo->meal_counter == 0)
+        {
+            philo->data->meals_counter--; //proteger
+            print_action(philo, "done eating");
+            return (NULL);
+        }
+        if (is_sleeping(philo))
+            return (NULL);
+        if (is_thinking(philo))
+            return (NULL);
     }
     return (NULL);
 }
 
 void    *simulation_monitor(void *arg)
 {
-    t_philo     *philo;
+    t_data     *data;
     int     i;
+    long	last_meal;
 
+    last_meal = 0;
     i = 0;
-    philo = (t_philo *)arg;
-    printf("data->philo_nbr %ld\n", philo->data->philo_nbr);
-    while (1)
+    data = (t_data *)arg;
+    while (get_time_ms() < data->start_time)
+    ;
+    while (!simulation_stopped(data))
     {
         i = 0;
-        while (i < philo->data->philo_nbr)
+        while (i < data->philo_nbr)
         {
-            if (philo->data->philos[i].last_meal_time - get_time_ms() > philo->data->time_to_die)
+            if (data->meals_counter == 0)
+                return (NULL);
+            pthread_mutex_lock(&data->philos[i].meals);
+			last_meal = data->philos[i].last_meal_time;
+			pthread_mutex_unlock(&data->philos[i].meals);
+            if (get_time_ms() - last_meal  >= data->time_to_die)
             {
-                print_action(&philo->data->philos[i], "is dead");
-                stop_simulation(philo->data);    
+                print_action(&data->philos[i], "is dead");
+                stop_simulation(data);
+                return (NULL);    
             }
             i++;
         }
     }
+    return (NULL);
 }
 
 int simulation_started(t_data *data)
@@ -51,7 +65,7 @@ int simulation_started(t_data *data)
     int i;
 
     i = 0;
-    data->start_time = get_time_ms();
+    data->start_time = get_time_ms() + 800;
     while(i < data->philo_nbr)
     {
         data->philos[i].last_meal_time = data->start_time;
@@ -59,7 +73,7 @@ int simulation_started(t_data *data)
             return (1);   
         i++;
     }
-    if (pthread_create(&data->monitor, NULL, simulation_monitor, &data->philos[i]))
+    if (pthread_create(&data->monitor, NULL, simulation_monitor, data))
         return (1);
     i = 0;
     pthread_join(data->monitor, NULL);

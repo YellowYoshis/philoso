@@ -44,7 +44,7 @@ typedef struct s_data
 int						is_digit(char **argv);
 void					destroy_mutex(t_data *data);
 void					ft_cleanup(t_data *data);
-void					print_action(t_philo *philo, char *msg);
+int					print_action(t_philo *philo, char *msg);
 long					get_time_ms(void);
 
 // LIB FUNCTIONS
@@ -62,12 +62,11 @@ int						data_init(t_data *data);
 // SIMULATION
 
 int						simulation_started(t_data *data);
-void					print_action(t_philo *philo, char *msg);
 void					stop_simulation(t_data *data);
 int						simulation_stopped(t_data *data);
-void					is_eating(t_philo *philo);
-void					is_sleeping(t_philo *philo);
-void					is_thinking(t_philo *philo);
+int					is_eating(t_philo *philo);
+int					is_sleeping(t_philo *philo);
+int					is_thinking(t_philo *philo);
 
 #endif
 

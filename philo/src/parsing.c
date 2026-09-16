@@ -2,6 +2,8 @@
 
 int	check_data(t_data *data)
 {
+	if (data->philo_nbr <= 0)
+		return (1);
 	if (data->time_to_die <= 0)
 		return (1);
 	if (data->time_to_eat <= 0)
