@@ -20,27 +20,12 @@ int is_digit(char **argv)
     return (0);
 }
 
-void destroy_mutex(t_data *data)
+long	get_time_ms(void)
 {
-    int i;
-    long len;
+	struct timeval	tv;
 
-    i = 0;
-    len = data->philo_nbr;
-    while(i < len)
-    {
-        pthread_mutex_destroy(&data->forks[i]);
-        pthread_mutex_destroy(&data->philos[i].meals);
-        i++;
-    }
-    pthread_mutex_destroy(&data->printer);
-    pthread_mutex_destroy(&data->is_stopped);
-}
-
-void    err_exit(char *error)
-{
-    printf("%s\n", error);
-    exit(EXIT_FAILURE);
+	gettimeofday(&tv, NULL);
+	return (tv.tv_sec * 1000L + tv.tv_usec / 1000);
 }
 
 void    ft_cleanup(t_data *data)

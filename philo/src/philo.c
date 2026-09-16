@@ -14,7 +14,8 @@ int main(int argc, char **argv)
     t_data  data;
     if (argc != 5 && argc != 6 )
         return (1);
-    parse_input(&data, argv);
+    if(parse_input(&data, argv))
+        return (1);
     print_struct(&data);
     if(data_init(&data))
     {

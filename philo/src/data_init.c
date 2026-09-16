@@ -41,6 +41,7 @@ int    data_init(t_data *data)
 
     i = 0;
     data->philos = calloc(data->philo_nbr + 1, sizeof(t_philo)); // to do 
+    
     if (!data->philos)
         return (1);
     while(i < data->philo_nbr)
