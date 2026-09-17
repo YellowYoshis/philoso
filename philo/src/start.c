@@ -16,12 +16,16 @@ void *simulation(void *arg)
             pthread_mutex_lock(&philo->meals);
             philo->meal_counter--;
             pthread_mutex_unlock(&philo->meals);            
-            pthread_mutex_lock(&philo->data->meals_eaten_mutex);
-            philo->data->meal_eaten++;
-            pthread_mutex_unlock(&philo->data->meals_eaten_mutex);
+
         }
         if (philo->meal_counter == 0)
         {
+            pthread_mutex_lock(&philo->data->meals_eaten_mutex);
+            philo->data->meal_eaten++;
+            pthread_mutex_unlock(&philo->data->meals_eaten_mutex);
+            pthread_mutex_lock(&philo->meals);            
+            philo->full = 1;
+            pthread_mutex_unlock(&philo->meals);            
             print_action(philo, "done eating");
             return (NULL);
         }
@@ -31,6 +35,31 @@ void *simulation(void *arg)
             return (NULL);
     }
     return (NULL);
+}
+
+int all_meals_eaten(t_data *data)
+{
+    int done;
+
+    pthread_mutex_lock(&data->meals_eaten_mutex);
+    done = (data->meal_eaten == data->philo_nbr);
+    pthread_mutex_unlock(&data->meals_eaten_mutex);
+    return (done);
+}
+
+int philo_is_full(t_data *data, int i)
+{
+    pthread_mutex_lock(&data->philos[i].meals);
+    if (data->philos[i].full == 1)
+    {
+        pthread_mutex_unlock(&data->philos[i].meals);
+        return (1);
+    }
+    else
+    {
+        pthread_mutex_unlock(&data->philos[i].meals);
+        return (0);
+    }
 }
 
 void    *simulation_monitor(void *arg)
@@ -49,16 +78,18 @@ void    *simulation_monitor(void *arg)
         i = 0;
         while (i < data->philo_nbr)
         {            
-            if (data->meal_eaten == data->philo_nbr)
+            if (all_meals_eaten(data))
                 return (NULL);
-            pthread_mutex_lock(&data->philos[i].meals);
-			last_meal = data->philos[i].last_meal_time;
-			pthread_mutex_unlock(&data->philos[i].meals);
-            if (get_time_ms() - last_meal  > data->time_to_die)
+            if (!philo_is_full(data, i))
             {
-                print_action(&data->philos[i], "is dead");
-                stop_simulation(data);
-                return (NULL);    
+                pthread_mutex_lock(&data->philos[i].meals);
+                last_meal = data->philos[i].last_meal_time;
+                pthread_mutex_unlock(&data->philos[i].meals);
+                if (get_time_ms() - last_meal  > data->time_to_die)
+                {               
+                    print_death(&data->philos[i], "is dead");
+                    return (NULL);    
+                }
             }
             i++;
         }

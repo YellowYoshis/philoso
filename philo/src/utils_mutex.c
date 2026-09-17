@@ -17,6 +17,14 @@ int	print_action(t_philo *philo, char *msg)
     return (0);
 }
 
+void	print_death(t_philo *philo, char *msg)
+{
+	pthread_mutex_lock(&philo->data->printer);
+	stop_simulation(philo->data);
+	printf("%ld %d %s\n",get_time_ms() - philo->data->start_time,philo->id, msg);
+	pthread_mutex_unlock(&philo->data->printer);
+}
+
 void destroy_mutex(t_data *data)
 {
     int i;

@@ -46,7 +46,8 @@ typedef struct s_data
 int						is_digit(char **argv);
 void					destroy_mutex(t_data *data);
 void					ft_cleanup(t_data *data);
-int					print_action(t_philo *philo, char *msg);
+int						print_action(t_philo *philo, char *msg);
+void					print_death(t_philo *philo, char *msg);
 long					get_time_ms(void);
 
 // LIB FUNCTIONS
