@@ -25,6 +25,7 @@ void destroy_mutex(t_data *data)
         pthread_mutex_destroy(&data->philos[i].meals);
         i++;
     }
+    pthread_mutex_destroy(&data->meals_eaten_mutex);    
     pthread_mutex_destroy(&data->printer);
     pthread_mutex_destroy(&data->is_stopped);
 }

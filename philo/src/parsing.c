@@ -21,6 +21,7 @@ int	parse_input(t_data *data, char **argv)
 		return (1);
     data->end_simulation = 0;
     data->start_time = 0;
+	data->meal_eaten = 0;
 	data->philo_nbr = ft_atol(argv[1]);
 	data->time_to_die = ft_atol(argv[2]);
 	data->time_to_eat = ft_atol(argv[3]);

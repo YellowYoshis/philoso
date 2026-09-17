@@ -52,6 +52,7 @@ int    data_init(t_data *data)
     }
     if(init_fork(data))
         return (1);
+    pthread_mutex_init(&data->meals_eaten_mutex, NULL);
     pthread_mutex_init(&data->printer, NULL);
     pthread_mutex_init(&data->is_stopped, NULL);
     give_fork(data);
