@@ -54,7 +54,7 @@ void    *simulation_monitor(void *arg)
             pthread_mutex_lock(&data->philos[i].meals);
 			last_meal = data->philos[i].last_meal_time;
 			pthread_mutex_unlock(&data->philos[i].meals);
-            if (get_time_ms() - last_meal  >= data->time_to_die)
+            if (get_time_ms() - last_meal  > data->time_to_die)
             {
                 print_action(&data->philos[i], "is dead");
                 stop_simulation(data);

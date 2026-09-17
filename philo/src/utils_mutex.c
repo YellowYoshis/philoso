@@ -7,6 +7,11 @@ int	print_action(t_philo *philo, char *msg)
         return(1);
     }
 	pthread_mutex_lock(&philo->data->printer);
+    if(simulation_stopped(philo->data))
+    {
+	    pthread_mutex_unlock(&philo->data->printer);        
+        return(1);        
+    }
 	printf("%ld %d %s\n", get_time_ms() - philo->data->start_time, philo->id, msg);
 	pthread_mutex_unlock(&philo->data->printer);
     return (0);
@@ -29,4 +34,3 @@ void destroy_mutex(t_data *data)
     pthread_mutex_destroy(&data->printer);
     pthread_mutex_destroy(&data->is_stopped);
 }
-

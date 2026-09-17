@@ -9,6 +9,10 @@ int    is_thinking(t_philo *philo)
 
 int    is_sleeping(t_philo *philo)
 {
+    if (print_action(philo, "is sleeping"))
+    {
+        return(1);
+    }
     if(simulation_stopped(philo->data))
         return (1);
     usleep(philo->data->time_to_sleep * 1000);
@@ -79,12 +83,6 @@ int	is_eating(t_philo *philo)
         return (1);
     }
 	usleep(philo->data->time_to_eat * 1000);
-    if (print_action(philo, "is sleeping"))
-    {
-        pthread_mutex_unlock(philo->right_fork);
-        pthread_mutex_unlock(philo->left_fork);
-        return (1);
-    }
 	pthread_mutex_unlock(philo->right_fork);
 	pthread_mutex_unlock(philo->left_fork);
     return (0);
