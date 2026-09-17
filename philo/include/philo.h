@@ -31,7 +31,6 @@ typedef struct s_data
 	long				time_to_eat;
 	long				time_to_sleep;
 	long				meals_counter;
-	long				meal_eaten;
 	long				start_time;
 	pthread_mutex_t		*forks;
 	pthread_mutex_t		printer;
