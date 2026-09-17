@@ -19,6 +19,7 @@ int	parse_input(t_data *data, char **argv)
 {
 	if (is_digit(argv))
 		return (1);
+	data->meal_eaten = 0;
     data->end_simulation = 0;
     data->start_time = 0;
 	data->philo_nbr = ft_atol(argv[1]);

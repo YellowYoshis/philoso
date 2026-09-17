@@ -12,10 +12,16 @@ void *simulation(void *arg)
         if(is_eating(philo))
             return (NULL);
         if (philo->meal_counter > 0)
+        {
+            pthread_mutex_lock(&philo->meals);        
             philo->meal_counter--;
+			pthread_mutex_unlock(&philo->meals);
+        }
         if (philo->meal_counter == 0)
         {
-            philo->data->meals_counter--; //proteger
+            pthread_mutex_lock(&philo->meals);
+            philo->data->meal_eaten++;
+            pthread_mutex_unlock(&philo->meals); //proteger
             print_action(philo, "done eating");
             return (NULL);
         }
@@ -43,13 +49,12 @@ void    *simulation_monitor(void *arg)
         i = 0;
         while (i < data->philo_nbr)
         {
-            if (data->meals_counter == 0)
+            if (data->meal_eaten == data->philo_nbr)
                 return (NULL);
-            pthread_mutex_lock(&data->philos[i].meals);
-			last_meal = data->philos[i].last_meal_time;
-			pthread_mutex_unlock(&data->philos[i].meals);
             if (get_time_ms() - last_meal  >= data->time_to_die)
             {
+                if (data->meal_eaten == data->philo_nbr)
+                    return (NULL);
                 print_action(&data->philos[i], "is dead");
                 stop_simulation(data);
                 return (NULL);    

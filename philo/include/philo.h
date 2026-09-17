@@ -31,12 +31,13 @@ typedef struct s_data
 	long				time_to_eat;
 	long				time_to_sleep;
 	long				meals_counter;
+	long				meal_eaten;
 	long				start_time;
 	pthread_mutex_t		*forks;
 	pthread_mutex_t		printer;
 	pthread_mutex_t		is_stopped;
 	t_philo				*philos;
-	pthread_t           monitor; // to do
+	pthread_t           monitor; // to do init
 }						t_data;
 
 // UTILS FUNCTIONS
@@ -71,8 +72,5 @@ int					is_thinking(t_philo *philo);
 #endif
 
 /*
-	TO DO
-	init monitor
-	comparer last meal et time to die
 	data race
 */
