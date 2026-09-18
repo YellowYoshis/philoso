@@ -1,14 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jturrel <jturrel@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/18 15:33:38 by jturrel           #+#    #+#             */
+/*   Updated: 2026/09/18 15:43:02 by jturrel          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_H
 # define PHILO_H
 
 # include <limits.h>
 # include <pthread.h>
+# include <stdint.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <string.h>
 # include <sys/time.h>
 # include <unistd.h>
-# include <stdint.h>
-# include <string.h>
 
 typedef struct s_data	t_data;
 
@@ -40,7 +52,7 @@ typedef struct s_data
 	pthread_mutex_t		printer;
 	pthread_mutex_t		is_stopped;
 	t_philo				*philos;
-	pthread_t           monitor;
+	pthread_t			monitor;
 }						t_data;
 
 // UTILS FUNCTIONS
@@ -51,8 +63,9 @@ void					ft_cleanup(t_data *data);
 int						print_action(t_philo *philo, char *msg);
 void					print_death(t_philo *philo, char *msg);
 long					get_time_ms(void);
-int 					all_meals_eaten(t_data *data);
+int						all_meals_eaten(t_data *data);
 void					*ft_calloc(size_t nmemb, size_t size);
+int						check_last_meal(t_data *data, long last_meal, int i);
 
 // LIB FUNCTIONS
 
@@ -74,6 +87,6 @@ int						simulation_stopped(t_data *data);
 int						is_eating(t_philo *philo);
 int						is_sleeping(t_philo *philo);
 int						is_thinking(t_philo *philo);
-int    					fork_management(t_philo *philo);
+int						fork_management(t_philo *philo);
 
 #endif

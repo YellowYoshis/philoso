@@ -56,12 +56,18 @@ An optional fifth argument specifies how many times each philosopher must eat be
 ## Resources
 
 Resources used while working on the project:
+man pthread create : https://man7.org/linux/man-pages/man3/pthread_create.3.html
+youtube videos from Code Vault : https://www.youtube.com/watch?v=xoXzp4B8aQk&list=PLfqABt5AS4FmuQf70psXrsMLEDQXNkLq2&index=6
+youtube video from Oceano : https://www.youtube.com/watch?v=zOpzGHwJ3MU
+man gettimeofday(2) : https://man7.org/linux/man-pages/man2/gettimeofday.2.html
+Valgrind Helgrind documentation :https://valgrind.org/docs/manual/hg-manual.html
+Lots of peer Learning -> teach me how to use gettimeofday, how to correctly mutex and time to think.
 
-POSIX threads (pthread) documentation
-POSIX mutex documentation
-gettimeofday(2) documentation
-usleep(3) documentation
-Valgrind Helgrind documentation
-The 42 Philosophers subject
 
 ## AI usage
+
+AI was used as a learning support tool to:
+
+- understand memory allocation for threads.
+- debugging segmentation faults and memory issues
+

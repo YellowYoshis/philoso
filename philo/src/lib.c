@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lib.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jturrel <jturrel@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/18 15:31:48 by jturrel           #+#    #+#             */
+/*   Updated: 2026/09/18 15:50:29 by jturrel          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
-long    ft_atol(char *nptr)
+long	ft_atol(char *nptr)
 {
 	long	n;
 	long	result;
-	int	i;
+	int		i;
 
 	i = 0;
 	result = 0;
@@ -22,8 +34,8 @@ long    ft_atol(char *nptr)
 	while (nptr[i] >= 48 && nptr[i] <= 57)
 	{
 		result = (result * 10) + (nptr[i] - 48);
-        if (result > INT_MAX || result < INT_MIN) // a voir apres parce que Jo est chiaaaant
-            return (0);
+		if (result > INT_MAX || result < INT_MIN)
+			return (0);
 		i++;
 	}
 	return (result * n);

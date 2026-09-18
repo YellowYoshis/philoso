@@ -1,23 +1,35 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jturrel <jturrel@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/18 15:33:02 by jturrel           #+#    #+#             */
+/*   Updated: 2026/09/18 15:52:16 by jturrel          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
-int is_digit(char **argv)
+int	is_digit(char **argv)
 {
-    int i;
-    int j;
+	int	i;
+	int	j;
 
-    i = 1;
-    while(argv[i])
-    {
-        j = 0;
-        while(argv[i][j])
-        {
-            if (argv[i][j] < '0' || argv[i][j] > '9')
-                return (1);
-            j++;
-        }
-        i++;
-    }
-    return (0);
+	i = 1;
+	while (argv[i])
+	{
+		j = 0;
+		while (argv[i][j])
+		{
+			if (argv[i][j] < '0' || argv[i][j] > '9')
+				return (1);
+			j++;
+		}
+		i++;
+	}
+	return (0);
 }
 
 void	*ft_memset(void *s, int c, size_t n)
@@ -25,11 +37,11 @@ void	*ft_memset(void *s, int c, size_t n)
 	size_t			i;
 	unsigned char	*str;
 
-	str = (unsigned char *) s;
+	str = (unsigned char *)s;
 	i = 0;
 	while (i < n)
 	{
-		*str = (unsigned char) c;
+		*str = (unsigned char)c;
 		str++;
 		i++;
 	}
@@ -59,8 +71,8 @@ long	get_time_ms(void)
 	return (tv.tv_sec * 1000L + tv.tv_usec / 1000);
 }
 
-void    ft_cleanup(t_data *data)
+void	ft_cleanup(t_data *data)
 {
-    free(data->philos);
-    free(data->forks);
+	free(data->philos);
+	free(data->forks);
 }

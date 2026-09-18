@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jturrel <jturrel@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/18 15:31:24 by jturrel           #+#    #+#             */
+/*   Updated: 2026/09/18 15:51:45 by jturrel          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 int	check_data(t_data *data)
@@ -19,8 +31,8 @@ int	parse_input(t_data *data, char **argv)
 {
 	if (is_digit(argv))
 		return (1);
-    data->end_simulation = 0;
-    data->start_time = 0;
+	data->end_simulation = 0;
+	data->start_time = 0;
 	data->meal_eaten = 0;
 	data->philo_nbr = ft_atol(argv[1]);
 	data->time_to_die = ft_atol(argv[2]);
