@@ -7,6 +7,8 @@ void *simulation(void *arg)
     philo = (t_philo *)arg;
     while (get_time_ms() < philo->data->start_time)
     ;
+    if (philo->data->philo_nbr % 2 == 0 && philo->id % 2 == 0)
+	    usleep(philo->data->time_to_eat * 1000);
     while(!simulation_stopped(philo->data))
     {
         if(is_eating(philo))
