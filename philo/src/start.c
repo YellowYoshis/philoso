@@ -1,5 +1,26 @@
 #include "philo.h"
 
+int meal_counter(t_philo *philo)
+{
+    if (philo->meal_counter > 0)
+    {
+        pthread_mutex_lock(&philo->meals);
+        philo->meal_counter--;
+        pthread_mutex_unlock(&philo->meals);
+    }            
+    if (philo->meal_counter == 0)
+    {
+        pthread_mutex_lock(&philo->data->meals_eaten_mutex);
+        philo->data->meal_eaten++;
+        pthread_mutex_unlock(&philo->data->meals_eaten_mutex);
+        pthread_mutex_lock(&philo->meals);            
+        philo->full = 1;
+        pthread_mutex_unlock(&philo->meals);
+        return (1);
+    }
+    return (0);
+}
+
 void *simulation(void *arg)
 {
     t_philo     *philo;
@@ -13,40 +34,14 @@ void *simulation(void *arg)
     {
         if(is_eating(philo))
             return (NULL);
-        if (philo->meal_counter > 0)
-        {
-            pthread_mutex_lock(&philo->meals);
-            philo->meal_counter--;
-            pthread_mutex_unlock(&philo->meals);            
-
-        }
-        if (philo->meal_counter == 0)
-        {
-            pthread_mutex_lock(&philo->data->meals_eaten_mutex);
-            philo->data->meal_eaten++;
-            pthread_mutex_unlock(&philo->data->meals_eaten_mutex);
-            pthread_mutex_lock(&philo->meals);            
-            philo->full = 1;
-            pthread_mutex_unlock(&philo->meals);            
-            print_action(philo, "done eating");
+        if (meal_counter(philo))
             return (NULL);
-        }
         if (is_sleeping(philo))
             return (NULL);
         if (is_thinking(philo))
             return (NULL);
     }
     return (NULL);
-}
-
-int all_meals_eaten(t_data *data)
-{
-    int done;
-
-    pthread_mutex_lock(&data->meals_eaten_mutex);
-    done = (data->meal_eaten == data->philo_nbr);
-    pthread_mutex_unlock(&data->meals_eaten_mutex);
-    return (done);
 }
 
 int philo_is_full(t_data *data, int i)
@@ -89,7 +84,7 @@ void    *simulation_monitor(void *arg)
                 pthread_mutex_unlock(&data->philos[i].meals);
                 if (get_time_ms() - last_meal  > data->time_to_die)
                 {               
-                    print_death(&data->philos[i], "is dead");
+                    print_death(&data->philos[i], "died");
                     return (NULL);    
                 }
             }

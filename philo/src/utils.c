@@ -20,6 +20,37 @@ int is_digit(char **argv)
     return (0);
 }
 
+void	*ft_memset(void *s, int c, size_t n)
+{
+	size_t			i;
+	unsigned char	*str;
+
+	str = (unsigned char *) s;
+	i = 0;
+	while (i < n)
+	{
+		*str = (unsigned char) c;
+		str++;
+		i++;
+	}
+	return (s);
+}
+
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	unsigned char	*shell;
+
+	if (nmemb == 0 || size == 0)
+		return (malloc(0));
+	if (nmemb > SIZE_MAX / size)
+		return (NULL);
+	shell = malloc(nmemb * size);
+	if (!shell)
+		return (NULL);
+	ft_memset(shell, 0, nmemb * size);
+	return (shell);
+}
+
 long	get_time_ms(void)
 {
 	struct timeval	tv;

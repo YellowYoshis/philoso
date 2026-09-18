@@ -17,6 +17,7 @@ SRCS			= \
 	$(SRC_DIR)/utils_mutex.c \
 	$(SRC_DIR)/simulation_ended.c \
 	$(SRC_DIR)/action.c \
+	$(SRC_DIR)/fork_management.c \
 
 OBJS			= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

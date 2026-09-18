@@ -1,5 +1,15 @@
 #include "philo.h"
 
+int all_meals_eaten(t_data *data)
+{
+    int done;
+
+    pthread_mutex_lock(&data->meals_eaten_mutex);
+    done = (data->meal_eaten == data->philo_nbr);
+    pthread_mutex_unlock(&data->meals_eaten_mutex);
+    return (done);
+}
+
 int	print_action(t_philo *philo, char *msg)
 {
     if(simulation_stopped(philo->data))

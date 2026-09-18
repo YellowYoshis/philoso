@@ -5,7 +5,7 @@ int    init_fork(t_data *data)
     int i;
 
     i = 0;
-    data->forks = calloc(data->philo_nbr + 1, sizeof(pthread_mutex_t));
+    data->forks = ft_calloc(data->philo_nbr + 1, sizeof(pthread_mutex_t));
     if (!data->forks)
         return (1);
     while(i < data->philo_nbr)
@@ -40,7 +40,7 @@ int    data_init(t_data *data)
     int i;
 
     i = 0;
-    data->philos = calloc(data->philo_nbr + 1, sizeof(t_philo)); // to do 
+    data->philos = ft_calloc(data->philo_nbr + 1, sizeof(t_philo)); // to do 
     if (!data->philos)
         return (1);
     while(i < data->philo_nbr)

@@ -1,14 +1,5 @@
 #include "philo.h"
 
-void    print_struct(t_data *data)
-{
-    printf("philo numbers: %ld\n", data->philo_nbr);
-    printf("time to die: %ld\n", data->time_to_die);
-    printf("time to eat: %ld\n", data->time_to_eat);
-    printf("time to sleep: %ld\n", data->time_to_sleep);
-    printf("meals_counter: %ld\n", data->meals_counter);
-}
-
 int main(int argc, char **argv)
 {
     t_data  data;
@@ -16,7 +7,6 @@ int main(int argc, char **argv)
         return (1);
     if(parse_input(&data, argv))
         return (1);
-    print_struct(&data);
     if(data_init(&data))
     {
         ft_cleanup(&data);
